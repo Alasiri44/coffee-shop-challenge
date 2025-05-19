@@ -7,15 +7,14 @@ class Order:
     def __init__(self, customer, coffee, price):
         self.customer = customer
         self.coffee = coffee
-        self.price = price
-        print(Order.orders)
+        self.price = price     
         Order.orders.append(self)
-        # print(Order.orders)
-        
+
     @property
     def customer(self):
         return self._customer
     
+    #ensuring it only accepts a customer instance
     @customer.setter
     def customer(self, customer):
         if not isinstance(customer, Customer):
@@ -27,6 +26,7 @@ class Order:
     def coffee(self):
         return self._coffee
     
+    #ensuring it only accepts a coffee instance
     @coffee.setter
     def coffee(self, coffee):
         if not isinstance(coffee, Coffee):
@@ -40,6 +40,9 @@ class Order:
     
     @price.setter
     def price(self, price):
+        #making the name immutable once initialized
+        if self._name is not None:
+            raise AttributeError("Price is immutable and cannot be changed.")
         if not isinstance(price, float):
             raise TypeError('Price mus be a float')
         else:
@@ -54,21 +57,3 @@ class Order:
     def coffee(cls):
         return cls.coffee
     
-    
-alice = Customer("Alice")      
-bob = Customer("Bob")           
-charlie = Customer("Charlie") 
-
-latte = Coffee("Latte")          # valid
-espresso = Coffee("Espresso")    # valid
-mocha = Coffee("Mocha")  
-
-order1 = Order(alice, latte, 3.5)     # valid
-order2 = Order(alice, espresso, 4.0)  # valid
-order3 = Order(bob, latte, 5.0)       # valid
-order4 = Order(charlie, mocha, 2.5)   # valid
-order5 = Order(alice, latte, 6.0)     # valid
-order6 = Order(bob, mocha, 7.0)       # valid
-order7 = Order(charlie, espresso, 2.0)
-
-# print(alice.orders())
